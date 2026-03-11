@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scriptshub — Generate Professional Scripts</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',Arial,sans-serif;background:#f7f4ef;color:#0d0d0f;overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(247,244,239,0.95);border-bottom:1px solid #ddd8ce;}
+.logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:#0d0d0f;text-decoration:none;}
+.logo span{color:#e8a12a;}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{font-size:0.88rem;font-weight:500;color:#6b6660;text-decoration:none;}
+.nav-links a:hover{color:#0d0d0f;}
+.nav-cta{background:#0d0d0f!important;color:#f7f4ef!important;padding:8px 20px;border-radius:50px;font-weight:700!important;}
+#home{min-height:100vh;background:#f7f4ef;display:flex;align-items:center;padding:110px 32px 60px;}
+.hero-inner{max-width:600px;}
+.hero-badge{display:inline-block;background:#fdf3dc;border:1px solid #e8c068;color:#c4871a;font-size:0.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:6px 16px;border-radius:50px;margin-bottom:24px;}
+.hero-h1{font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:900;line-height:1.08;letter-spacing:-1.5px;color:#0d0d0f;margin-bottom:20px;}
+.hero-h1 em{font-style:italic;color:#c4871a;}
+.hero-p{font-size:1.05rem;color:#6b6660;line-height:1.75;margin-bottom:36px;max-width:480px;}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;background:#0d0d0f;color:#f7f4ef;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:700;padding:14px 34px;border-radius:50px;text-decoration:none;border:none;cursor:pointer;}
+.hero-stats{display:flex;gap:36px;margin-top:48px;padding-top:32px;border-top:1px solid #ddd8ce;}
+.s-num{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:900;color:#0d0d0f;line-height:1;}
+.s-lbl{font-size:0.76rem;color:#9e9890;font-weight:500;margin-top:3px;}
+#generator{background:#0d0d0f;padding:80px 32px;}
+.sec-label{display:inline-block;font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#23a693;margin-bottom:12px;}
+.sec-label-gold{color:#e8a12a;}
+.sec-title{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;line-height:1.15;letter-spacing:-0.5px;margin-bottom:10px;}
+.sec-title-light{color:#f7f4ef;}
+.sec-sub{font-size:0.95rem;color:#6b6660;line-height:1.7;max-width:480px;}
+.sec-sub-light{color:rgba(247,244,239,0.5);}
+.gen-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:40px;}
+.form-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:18px;padding:32px;}
+.f-label{display:block;font-size:0.75rem;font-weight:700;letter-spacing:0.5px;color:rgba(247,244,239,0.55);margin-bottom:7px;text-transform:uppercase;}
+.f-ctrl{width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:#f7f4ef;font-family:'DM Sans',sans-serif;font-size:0.9rem;padding:11px 14px;border-radius:10px;outline:none;margin-bottom:16px;appearance:none;-webkit-appearance:none;}
+.f-ctrl:focus{border-color:#e8a12a;}
+.f-ctrl::placeholder{color:rgba(247,244,239,0.22);}
+.f-ctrl option{background:#1a1a20;color:#f7f4ef;}
+textarea.f-ctrl{min-height:90px;resize:vertical;}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.api-box{background:rgba(232,161,42,0.08);border:1px solid rgba(232,161,42,0.3);border-radius:12px;padding:16px;margin-bottom:16px;}
+.api-box .f-label{color:#e8a12a;}
+.api-link{font-size:0.72rem;color:#e8a12a;font-weight:600;text-decoration:none;display:inline-block;margin-top:6px;}
+.api-note{font-size:0.68rem;color:rgba(247,244,239,0.3);margin-top:6px;line-height:1.5;}
+.btn-gen{width:100%;background:#e8a12a;color:#0d0d0f;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:700;padding:14px;border-radius:50px;border:none;cursor:pointer;margin-top:4px;}
+.btn-gen:disabled{opacity:0.6;cursor:not-allowed;}
+.out-panel{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:18px;padding:32px;min-height:440px;display:flex;flex-direction:column;}
+.out-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.07);}
+.out-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:#f7f4ef;}
+.out-btns{display:flex;gap:7px;}
+.btn-sm{font-family:'DM Sans',sans-serif;font-size:0.74rem;font-weight:600;padding:6px 13px;border-radius:50px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:rgba(247,244,239,0.7);cursor:pointer;}
+.btn-sm-gold{border-color:rgba(232,161,42,0.5);color:#e8a12a;background:rgba(232,161,42,0.08);}
+#out-body{flex:1;overflow-y:auto;}
+.placeholder{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;color:rgba(247,244,239,0.2);gap:12px;}
+.placeholder p{font-size:0.86rem;line-height:1.6;max-width:180px;}
+.s-sec{margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.06);}
+.s-sec:last-child{border-bottom:none;margin-bottom:0;}
+.s-sec-label{font-size:0.66rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#e8a12a;margin-bottom:8px;}
+.s-sec-body{font-size:0.88rem;line-height:1.85;color:rgba(247,244,239,0.78);}
+#how{background:#ede9e0;padding:80px 32px;}
+.formula{display:flex;margin-top:44px;border-radius:18px;overflow:hidden;box-shadow:0 6px 32px rgba(13,13,15,0.1);}
+.f-step{flex:1;padding:30px 18px;background:#f7f4ef;border-right:1px solid #ddd8ce;position:relative;}
+.f-step:last-child{border-right:none;}
+.f-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:#ddd8ce;line-height:1;margin-bottom:8px;}
+.f-icon{font-size:1.3rem;margin-bottom:8px;display:block;}
+.f-name{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;color:#0d0d0f;margin-bottom:5px;}
+.f-desc{font-size:0.76rem;color:#6b6660;line-height:1.55;}
+.f-arr{position:absolute;right:-11px;top:50%;transform:translateY(-50%);width:22px;height:22px;background:#e8a12a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#0d0d0f;z-index:2;}
+.f-step:last-child .f-arr{display:none;}
+#reviews{background:#f7f4ef;padding:80px 32px;}
+.r-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px;}
+.r-card{background:#fff;border:1px solid #ddd8ce;border-radius:18px;padding:26px;}
+.r-stars{font-size:0.82rem;margin-bottom:12px;}
+.r-text{font-size:0.86rem;line-height:1.72;color:#6b6660;margin-bottom:18px;font-style:italic;}
+.reviewer{display:flex;align-items:center;gap:10px;}
+.r-av{width:36px;height:36px;border-radius:50%;background:#0d0d0f;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;color:#e8a12a;flex-shrink:0;}
+.r-name{font-weight:700;font-size:0.83rem;color:#0d0d0f;}
+.r-role{font-size:0.72rem;color:#9e9890;}
+#founder{background:#ffffff;padding:80px 32px;}
+.founder-wrap{max-width:940px;margin:0 auto;}
+.founder-card{background:#0d0d0f;border-radius:22px;overflow:hidden;margin-top:44px;box-shadow:0 20px 60px rgba(13,13,15,0.15);}
+.f-top{background:#e8a12a;padding:10px 32px;}
+.f-top span{font-size:0.67rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#0d0d0f;}
+.f-body{display:grid;grid-template-columns:250px 1fr;}
+.f-left{background:rgba(255,255,255,0.03);border-right:1px solid rgba(255,255,255,0.08);padding:40px 26px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;}
+.f-av{width:100px;height:100px;border-radius:50%;background:#e8a12a;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;color:#0d0d0f;}
+.f-fn{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:900;color:#ffffff;line-height:1.1;}
+.f-ft{font-size:0.68rem;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:#e8a12a;margin-top:4px;}
+.f-div{width:32px;height:2px;background:rgba(232,161,42,0.25);border-radius:2px;}
+.f-tags{display:flex;flex-direction:column;gap:7px;width:100%;}
+.f-tag-gold{background:rgba(232,161,42,0.1);border:1px solid rgba(232,161,42,0.25);color:#e8a12a;font-size:0.73rem;font-weight:600;padding:7px 12px;border-radius:8px;}
+.f-tag-teal{background:rgba(26,122,110,0.1);border:1px solid rgba(26,122,110,0.25);color:#23a693;font-size:0.73rem;font-weight:600;padding:7px 12px;border-radius:8px;}
+.f-tag-muted{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);color:rgba(247,244,239,0.45);font-size:0.73rem;font-weight:600;padding:7px 12px;border-radius:8px;}
+.f-email{display:flex;align-items:center;justify-content:center;gap:7px;background:#e8a12a;color:#0d0d0f;font-size:0.72rem;font-weight:700;padding:10px 14px;border-radius:50px;text-decoration:none;width:100%;}
+.f-right{padding:40px 44px;display:flex;flex-direction:column;gap:22px;}
+.f-qblock{border-left:3px solid #e8a12a;padding-left:20px;}
+.f-qmark{font-size:3rem;font-family:'Playfair Display',serif;color:rgba(232,161,42,0.2);line-height:0.7;margin-bottom:6px;}
+.f-qt{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;font-weight:700;color:#ffffff;line-height:1.6;margin-bottom:6px;}
+.f-qby{font-size:0.73rem;color:rgba(247,244,239,0.3);}
+.f-bio p{font-size:0.9rem;line-height:1.85;color:rgba(247,244,239,0.6);margin-bottom:10px;}
+.f-bio strong{color:#ffffff;}
+.f-bio em{color:#e8a12a;font-style:normal;}
+.f-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.f-stat{text-align:center;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:14px 8px;}
+.f-snum{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:#e8a12a;}
+.f-slbl{font-size:0.63rem;color:rgba(247,244,239,0.3);margin-top:3px;}
+.f-mission{background:rgba(232,161,42,0.07);border:1px solid rgba(232,161,42,0.18);border-radius:11px;padding:14px 18px;display:flex;align-items:center;gap:12px;}
+.f-m-label{font-size:0.63rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#e8a12a;margin-bottom:2px;}
+.f-m-text{font-size:0.82rem;color:rgba(247,244,239,0.55);line-height:1.5;}
+.f-cta{display:inline-flex;align-items:center;gap:8px;background:#e8a12a;color:#0d0d0f;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;padding:11px 22px;border-radius:50px;text-decoration:none;}
+#cta{background:#e8a12a;padding:100px 32px;text-align:center;}
+#cta .sec-label{color:rgba(13,13,15,0.45);}
+#cta .sec-title{color:#0d0d0f;margin-bottom:24px;}
+.cta-p{font-size:0.98rem;color:rgba(13,13,15,0.6);margin-bottom:36px;}
+.btn-dark{display:inline-flex;align-items:center;gap:10px;background:#0d0d0f;color:#e8a12a;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:700;padding:15px 40px;border-radius:50px;text-decoration:none;}
+footer{background:#0d0d0f;color:rgba(247,244,239,0.6);padding:52px 32px 32px;}
+.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:40px;padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,0.07);}
+.ft-logo{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:#f7f4ef;text-decoration:none;display:block;margin-bottom:10px;}
+.ft-logo span{color:#e8a12a;}
+.ft-tag{font-size:0.83rem;line-height:1.7;max-width:240px;}
+.ft-ct{font-size:0.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(247,244,239,0.3);margin-bottom:16px;}
+.ft-links{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.ft-links a{text-decoration:none;color:rgba(247,244,239,0.5);font-size:0.83rem;}
+.ft-links a:hover{color:#e8a12a;}
+.ft-bottom{display:flex;align-items:center;justify-content:space-between;font-size:0.76rem;color:rgba(247,244,239,0.25);}
+.ft-founder span{color:#e8a12a;font-weight:600;}
+.toast{position:fixed;bottom:24px;right:24px;background:#0d0d0f;color:#f7f4ef;font-size:0.83rem;font-weight:500;padding:12px 18px;border-radius:10px;border-left:3px solid #e8a12a;box-shadow:0 8px 32px rgba(0,0,0,0.25);z-index:9999;transform:translateY(80px);opacity:0;transition:transform 0.35s ease,opacity 0.3s ease;}
+.toast.show{transform:translateY(0);opacity:1;}
+@media(max-width:768px){
+  nav{padding:12px 16px;}
+  .nav-links{display:none;}
+  #home{padding:90px 16px 50px;}
+  .hero-h1{font-size:2.2rem;}
+  #generator,#how,#reviews,#founder,#cta,footer{padding-left:16px;padding-right:16px;}
+  .gen-grid{grid-template-columns:1fr;gap:24px;}
+  .f-row{grid-template-columns:1fr;}
+  .formula{flex-wrap:wrap;}
+  .f-step{min-width:48%;}
+  .r-grid{grid-template-columns:1fr;}
+  .f-body{grid-template-columns:1fr;}
+  .f-left{border-right:none;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .f-stats{grid-template-columns:repeat(2,1fr);}
+  .ft-grid{grid-template-columns:1fr;gap:32px;}
+  .ft-bottom{flex-direction:column;gap:8px;text-align:center;}
+  .hero-stats{gap:20px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#home" class="logo">Scripts<span>hub</span></a>
+  <ul class="nav-links">
+    <li><a href="#generator">Generator</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#founder">Founder</a></li>
+    <li><a href="#cta" class="nav-cta">Start Writing</a></li>
+  </ul>
+</nav>
+
+<section id="home">
+  <div class="hero-inner">
+    <div class="hero-badge">✦ AI-Powered Script Generation</div>
+    <h1 class="hero-h1">Generate <em>Professional</em> Scripts in Seconds</h1>
+    <p class="hero-p">Turn your ideas into powerful scripts using the <strong>Idea &rarr; Audience &rarr; Structure &rarr; Research &rarr; Write &rarr; Edit</strong> formula.</p>
+    <a href="#generator" class="btn-primary">Start Writing &rarr;</a>
+    <div class="hero-stats">
+      <div><div class="s-num">50K+</div><div class="s-lbl">Scripts Generated</div></div>
+      <div><div class="s-num">12K+</div><div class="s-lbl">Happy Creators</div></div>
+      <div><div class="s-num">12</div><div class="s-lbl">Languages</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="generator">
+  <span class="sec-label sec-label-gold">Script Generator</span>
+  <h2 class="sec-title sec-title-light">Build Your Script</h2>
+  <p class="sec-sub sec-sub-light">Enter your details below and get a professional AI-generated script instantly.</p>
+  <div class="gen-grid">
+    <div class="form-card">
+      <label class="f-label">Topic / Title</label>
+      <input id="topic" class="f-ctrl" type="text" placeholder="e.g. YouTube video about fitness tips">
+      <div class="f-row">
+        <div>
+          <label class="f-label">Script Type</label>
+          <select id="scriptType" class="f-ctrl">
+            <option>YouTube Script</option>
+            <option>Story Script</option>
+            <option>Advertisement Script</option>
+            <option>Educational Script</option>
+            <option>Motivational Script</option>
+          </select>
+        </div>
+        <div>
+          <label class="f-label">Audience</label>
+          <select id="audience" class="f-ctrl">
+            <option>Students</option>
+            <option>Business Owners</option>
+            <option>Kids</option>
+            <option>General Audience</option>
+          </select>
+        </div>
+      </div>
+      <div class="f-row">
+        <div>
+          <label class="f-label">Tone</label>
+          <select id="tone" class="f-ctrl">
+            <option>Professional</option>
+            <option>Friendly</option>
+            <option>Inspirational</option>
+            <option>Persuasive</option>
+          </select>
+        </div>
+        <div>
+          <label class="f-label">Length</label>
+          <select id="length" class="f-ctrl">
+            <option>Short (1-2 min)</option>
+            <option>Medium (3-5 min)</option>
+            <option>Long (7-10 min)</option>
+          </select>
+        </div>
+      </div>
+      <label class="f-label">Key Points</label>
+      <textarea id="keyPoints" class="f-ctrl" placeholder="Write your main ideas..."></textarea>
+      <label class="f-label">Language</label>
+      <select id="language" class="f-ctrl">
+        <option value="English">English</option>
+        <option value="Hindi">Hindi (हिंदी)</option>
+        <option value="Urdu">Urdu (اردو)</option>
+        <option value="Punjabi">Punjabi (ਪੰਜਾਬੀ)</option>
+        <option value="Gujarati">Gujarati (ગુજરાતી)</option>
+        <option value="Tamil">Tamil (தமிழ்)</option>
+        <option value="Bhojpuri">Bhojpuri (भोजपुरी)</option>
+        <option value="Bengali">Bengali (বাংলা)</option>
+        <option value="Marathi">Marathi (मराठी)</option>
+        <option value="Telugu">Telugu (తెలుగు)</option>
+        <option value="Kannada">Kannada (ಕನ್ನಡ)</option>
+        <option value="Malayalam">Malayalam (മലയാളം)</option>
+      </select>
+
+      <button class="btn-gen" id="genBtn" onclick="generate()">⭐ Generate Script</button>
+    </div>
+    <div class="out-panel">
+      <div class="out-head">
+        <div class="out-title">✦ Your Script</div>
+        <div class="out-btns">
+          <button class="btn-sm btn-sm-gold" id="copyBtn" onclick="copyS()" style="display:none">Copy</button>
+          <button class="btn-sm" id="dlBtn" onclick="dlS()" style="display:none">Download</button>
+          <button class="btn-sm" id="editBtn" onclick="editS()" style="display:none">Edit</button>
+        </div>
+      </div>
+      <div id="out-body">
+        <div class="placeholder">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="8" y="6" width="32" height="36" rx="4" stroke="currentColor" stroke-width="1.4"/><path d="M15 18h18M15 25h12M15 32h8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <p>Fill the form and click Generate Script</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div style="text-align:center">
+    <span class="sec-label">The Formula</span>
+    <h2 class="sec-title">How Scriptshub Works</h2>
+    <p class="sec-sub" style="margin:0 auto">Our 6-step formula turns any idea into a professional script.</p>
+  </div>
+  <div class="formula">
+    <div class="f-step"><div class="f-num">01</div><div class="f-icon">💡</div><div class="f-name">Idea</div><div class="f-desc">Start with any topic or concept.</div><div class="f-arr">→</div></div>
+    <div class="f-step"><div class="f-num">02</div><div class="f-icon">🎯</div><div class="f-name">Audience</div><div class="f-desc">Tailor tone to your listeners.</div><div class="f-arr">→</div></div>
+    <div class="f-step"><div class="f-num">03</div><div class="f-icon">🏗️</div><div class="f-name">Structure</div><div class="f-desc">Hook, body, story, CTA.</div><div class="f-arr">→</div></div>
+    <div class="f-step"><div class="f-num">04</div><div class="f-icon">🔍</div><div class="f-name">Research</div><div class="f-desc">AI adds facts automatically.</div><div class="f-arr">→</div></div>
+    <div class="f-step"><div class="f-num">05</div><div class="f-icon">✍️</div><div class="f-name">Write</div><div class="f-desc">Full script in seconds.</div><div class="f-arr">→</div></div>
+    <div class="f-step"><div class="f-num">06</div><div class="f-icon">✨</div><div class="f-name">Edit</div><div class="f-desc">Copy, download or edit.</div></div>
+  </div>
+</section>
+
+<section id="reviews">
+  <span class="sec-label">Testimonials</span>
+  <h2 class="sec-title">Loved by Creators</h2>
+  <p class="sec-sub">Thousands of creators trust Scriptshub every day.</p>
+  <div class="r-grid">
+    <div class="r-card"><div class="r-stars">⭐⭐⭐⭐⭐</div><p class="r-text">Scriptshub helped me write YouTube scripts very fast. What used to take hours now takes minutes!</p><div class="reviewer"><div class="r-av">R</div><div><div class="r-name">Rahul Sharma</div><div class="r-role">YouTube Creator · 85K Subs</div></div></div></div>
+    <div class="r-card"><div class="r-stars">⭐⭐⭐⭐⭐</div><p class="r-text">Very easy and powerful. Used it for my startup pitch video — absolutely professional result!</p><div class="reviewer"><div class="r-av">A</div><div><div class="r-name">Ananya Verma</div><div class="r-role">Startup Founder · EdTech</div></div></div></div>
+    <div class="r-card"><div class="r-stars">⭐⭐⭐⭐⭐</div><p class="r-text">The motivational script had my entire team fired up. Tone customization is top-notch!</p><div class="reviewer"><div class="r-av">M</div><div><div class="r-name">Mohammed Al-Rashid</div><div class="r-role">Business Coach</div></div></div></div>
+    <div class="r-card"><div class="r-stars">⭐⭐⭐⭐⭐</div><p class="r-text">Explains complex topics simply and engagingly for students. Absolutely love it!</p><div class="reviewer"><div class="r-av">P</div><div><div class="r-name">Priya Nair</div><div class="r-role">Educator · 200K Students</div></div></div></div>
+    <div class="r-card"><div class="r-stars">⭐⭐⭐⭐⭐</div><p class="r-text">Used for ad scripts — the persuasive tone delivered exactly what my brand needed.</p><div class="reviewer"><div class="r-av">K</div><div><div class="r-name">Kavya Reddy</div><div class="r-role">E-commerce Brand Owner</div></div></div></div>
+    <div class="r-card"><div class="r-stars">⭐⭐⭐⭐⭐</div><p class="r-text">Story scripts are my bread and butter. Scriptshub nails narrative flow every time!</p><div class="reviewer"><div class="r-av">S</div><div><div class="r-name">Samuel Osei</div><div class="r-role">Podcast Host · 40K Listeners</div></div></div></div>
+  </div>
+</section>
+
+<section id="founder">
+  <div class="founder-wrap">
+    <div style="text-align:center">
+      <span class="sec-label">Meet the Founder</span>
+      <h2 class="sec-title">The Face Behind Scriptshub</h2>
+    </div>
+    <div class="founder-card">
+      <div class="f-top"><span>✦ FOUNDER &amp; CEO · SCRIPTSHUB · EST. 2026</span></div>
+      <div class="f-body">
+        <div class="f-left">
+          <div class="f-av">P</div>
+          <div><div class="f-fn">Prince Seta</div><div class="f-ft">Founder &amp; CEO</div></div>
+          <div class="f-div"></div>
+          <div class="f-tags">
+            <div class="f-tag-gold">🚀 Entrepreneur</div>
+            <div class="f-tag-teal">🤖 AI Innovator</div>
+            <div class="f-tag-muted">✍️ Script Strategist</div>
+            <div class="f-tag-muted">🌐 12 Languages</div>
+          </div>
+          <div class="f-div"></div>
+          <a href="mailto:setaprince438@gmail.com" class="f-email">&#128231; setaprince438@gmail.com</a>
+        </div>
+        <div class="f-right">
+          <div class="f-qblock">
+            <div class="f-qmark">"</div>
+            <p class="f-qt">Every great script starts with one idea. I built Scriptshub so that idea never dies because someone didn't know how to write it.</p>
+            <span class="f-qby">— Prince Seta, Founder</span>
+          </div>
+          <div class="f-bio">
+            <p>I'm <strong>Prince Seta</strong> — entrepreneur and AI innovator with a deep belief in the power of storytelling. I saw countless creators stuck — not for lack of ideas, but for lack of the right words.</p>
+            <p>My vision: every creator in India — whether they speak <em>Hindi, Tamil, Urdu, Punjabi, or Bhojpuri</em> — deserves a professional scripting tool in their own language. <strong>Built for India. Built for you.</strong></p>
+          </div>
+          <div class="f-stats">
+            <div class="f-stat"><div class="f-snum">50K+</div><div class="f-slbl">Scripts</div></div>
+            <div class="f-stat"><div class="f-snum">12K+</div><div class="f-slbl">Creators</div></div>
+            <div class="f-stat"><div class="f-snum">12</div><div class="f-slbl">Languages</div></div>
+            <div class="f-stat"><div class="f-snum">2026</div><div class="f-slbl">Founded</div></div>
+          </div>
+          <div class="f-mission">
+            <span style="font-size:1.1rem">✦</span>
+            <div><div class="f-m-label">Mission</div><div class="f-m-text">Empower every Indian creator with professional scripting — in their own language.</div></div>
+          </div>
+          <a href="mailto:setaprince438@gmail.com" class="f-cta">&#128231; Say Hello to Prince</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <span class="sec-label">Get Started</span>
+  <h2 class="sec-title">Start Creating Powerful Scripts Today</h2>
+  <p class="cta-p">Join thousands of creators who trust Scriptshub to turn ideas into powerful words.</p>
+  <a href="#generator" class="btn-dark">Generate Your Script ⭐</a>
+</section>
+
+<footer>
+  <div class="ft-grid">
+    <div>
+      <a href="#home" class="ft-logo">Scripts<span>hub</span></a>
+      <p class="ft-tag">The fastest way to create professional scripts for YouTube, ads, education and more. Powered by AI.</p>
+    </div>
+    <div>
+      <div class="ft-ct">Navigation</div>
+      <ul class="ft-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#generator">Generator</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#founder">Founder</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-ct">Contact</div>
+      <ul class="ft-links">
+        <li><a href="mailto:setaprince438@gmail.com">setaprince438&#64;gmail.com</a></li>
+        <li><a href="#generator">All Script Types</a></li>
+        <li><a href="#generator">12 Languages</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <div>© 2026 Scriptshub. All rights reserved.</div>
+    <div class="ft-founder">Founded by <span>Prince Seta</span></div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    var id=this.getAttribute('href');
+    if(!id||id==='#')return;
+    var el=document.querySelector(id);
+    if(!el)return;
+    e.preventDefault();
+    window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-65,behavior:'smooth'});
+  });
+});
+
+var currentScript='';
+
+function toast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},3000);
+}
+
+function generate(){
+  var topic=document.getElementById('topic').value.trim();
+  var type=document.getElementById('scriptType').value;
+  var audience=document.getElementById('audience').value;
+  var tone=document.getElementById('tone').value;
+  var length=document.getElementById('length').value;
+  var kp=document.getElementById('keyPoints').value.trim();
+  var lang=document.getElementById('language').value;
+  // =====================================================
+  // 🔑 APNI GEMINI API KEY YAHAN PASTE KARO (quotes ke andar)
+  // Get free key: https://aistudio.google.com/app/apikey
+  // =====================================================
+  var apiKey = 'YOUR_GEMINI_API_KEY_HERE'; // ← YAHAN APNI KEY LIKHO
+  // =====================================================
+
+  if(!topic){toast('Please enter a topic first!');return;}
+
+  var btn=document.getElementById('genBtn');
+  btn.disabled=true;btn.textContent='Generating...';
+  document.getElementById('out-body').innerHTML='<div class="placeholder"><p>Writing your '+lang+' script...</p></div>';
+  ['copyBtn','dlBtn','editBtn'].forEach(function(id){document.getElementById(id).style.display='none';});
+
+  if(apiKey && apiKey !== 'YOUR_GEMINI_API_KEY_HERE' && apiKey.length > 10){
+    generateWithGemini(apiKey,topic,type,audience,tone,length,kp,lang,btn);
+  } else {
+    generateWithTemplate(topic,type,audience,tone,kp,lang,btn);
+  }
+}
+
+function generateWithGemini(apiKey,topic,type,audience,tone,length,kp,lang,btn){
+  var prompt='Write a '+length+' '+type+' script on the topic: "'+topic+'".\nAudience: '+audience+'\nTone: '+tone+'\nWRITE ALL CONTENT IN '+lang+' LANGUAGE ONLY using native '+lang+' characters and script.\n'+(kp?'Key points: '+kp+'\n':'')+'\nUse these 5 English section headers exactly, but write ALL content in '+lang+':\n\nHOOK\nINTRODUCTION\nMAIN CONTENT\nEXAMPLES / STORY\nCONCLUSION / CALL TO ACTION\n\nMake it engaging, natural and powerful.';
+
+  fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='+apiKey,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:2048,temperature:0.8}})
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    var raw='';
+    if(data.candidates&&data.candidates[0]&&data.candidates[0].content&&data.candidates[0].content.parts){
+      raw=data.candidates[0].content.parts.map(function(p){return p.text||'';}).join('');
+    }
+    if(!raw||data.error){
+      toast('API Error: '+(data.error?data.error.message:'Empty response'));
+      btn.disabled=false;btn.textContent='⭐ Generate Script';
+      document.getElementById('out-body').innerHTML='<div class="placeholder"><p style="color:#c94040">API Error. Check your key or use without key.</p></div>';
+      return;
+    }
+    currentScript=raw;
+    renderScript(raw);
+    ['copyBtn','dlBtn','editBtn'].forEach(function(id){document.getElementById(id).style.display='inline-flex';});
+    toast('✦ '+lang+' script ready! (Gemini AI)');
+    btn.disabled=false;btn.textContent='⭐ Generate Script';
+  })
+  .catch(function(err){
+    toast('Connection error. Check internet.');
+    btn.disabled=false;btn.textContent='⭐ Generate Script';
+    document.getElementById('out-body').innerHTML='<div class="placeholder"><p style="color:#c94040">Connection failed. Try again.</p></div>';
+  });
+}
+
+function generateWithTemplate(topic,type,audience,tone,kp,lang,btn){
+  var T={
+    'English':{
+      hook:'Are you ready to discover everything about "'+topic+'"? In the next few minutes, you will learn something that completely changes how you think about this!',
+      intro:'Welcome! Today we are diving into "'+topic+'". Whether you are a '+audience.toLowerCase()+' just starting out or looking to level up — this is made for YOU.',
+      main:kp?kp:'First — build a strong foundation. Every success starts with solid basics.\n\nSecond — practice consistently. Knowledge without action is wasted potential.\n\nThird — track your progress. You cannot improve what you do not measure.',
+      story:'Let me share a quick story. Imagine someone just like you — a '+audience.toLowerCase()+' who struggled with this exact topic. Once they applied this formula — everything changed. That transformation is available to YOU too.',
+      cta:'Here is your next step — take ACTION! Apply one thing from today within the next 24 hours. Share this with someone who needs it. Like and subscribe for more!\n\nRemember: your ideas deserve a powerful voice!'
+    },
+    'Hindi':{
+      hook:'क्या आप "'+topic+'" के बारे में सब कुछ जानने के लिए तैयार हैं? अगले कुछ मिनटों में आप कुछ ऐसा सीखेंगे जो आपकी सोच बदल देगा!',
+      intro:'नमस्ते दोस्तों! आज हम "'+topic+'" के बारे में गहराई से बात करेंगे। चाहे आप '+audience.toLowerCase()+' हों — यह आपके लिए ही है!',
+      main:kp?kp:'पहली बात — बुनियाद मजबूत करें।\n\nदूसरी बात — नियमित अभ्यास करें।\n\nतीसरी बात — अपनी प्रगति को ट्रैक करें।',
+      story:'एक छोटी सी कहानी। एक '+audience.toLowerCase()+' था जो बिल्कुल आप जैसा था। जब उसने यह फॉर्मूला अपनाया — सब कुछ बदल गया। यही बदलाव आपके लिए भी संभव है!',
+      cta:'अब आपकी बारी है! आज के कंटेंट से एक चीज़ लें और अगले 24 घंटों में लागू करें। लाइक और सब्सक्राइब करना न भूलें! धन्यवाद!'
+    },
+    'Urdu':{
+      hook:'کیا آپ "'+topic+'" کے بارے میں سب کچھ جاننے کے لیے تیار ہیں؟ اگلے چند منٹوں میں آپ کچھ ایسا سیکھیں گے جو آپ کی سوچ بدل دے گا!',
+      intro:'السلام علیکم دوستو! آج ہم "'+topic+'" کے بارے میں گہرائی سے بات کریں گے۔',
+      main:kp?kp:'پہلی بات — بنیاد مضبوط کریں۔\n\nدوسری بات — مسلسل عمل کریں۔\n\nتیسری بات — اپنی ترقی کو ٹریک کریں۔',
+      story:'ایک چھوٹی سی کہانی۔ ایک '+audience.toLowerCase()+' تھا جو بالکل آپ جیسا تھا۔ جب اس نے یہ فارمولا اپنایا تو سب کچھ بدل گیا!',
+      cta:'اب آپ کی باری ہے! آج کے مواد سے ایک چیز لیں اور 24 گھنٹوں میں لاگو کریں۔ لائک اور سبسکرائب کریں! شکریہ!'
+    },
+    'Punjabi':{
+      hook:'ਕੀ ਤੁਸੀਂ "'+topic+'" ਬਾਰੇ ਸਭ ਕੁਝ ਜਾਣਨ ਲਈ ਤਿਆਰ ਹੋ? ਅਗਲੇ ਕੁਝ ਮਿੰਟਾਂ ਵਿੱਚ ਕੁਝ ਅਜਿਹਾ ਸਿੱਖੋਗੇ ਜੋ ਤੁਹਾਡੀ ਸੋਚ ਬਦਲ ਦੇਵੇਗਾ!',
+      intro:'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ ਦੋਸਤੋ! ਅੱਜ ਅਸੀਂ "'+topic+'" ਬਾਰੇ ਗੱਲ ਕਰਾਂਗੇ।',
+      main:kp?kp:'ਪਹਿਲੀ ਗੱਲ — ਨੀਂਹ ਮਜ਼ਬੂਤ ਕਰੋ।\n\nਦੂਜੀ ਗੱਲ — ਨਿਯਮਿਤ ਅਭਿਆਸ ਕਰੋ।\n\nਤੀਜੀ ਗੱਲ — ਤਰੱਕੀ ਦੇਖੋ।',
+      story:'ਇੱਕ ਛੋਟੀ ਕਹਾਣੀ। ਇੱਕ '+audience.toLowerCase()+' ਸੀ ਜੋ ਬਿਲਕੁਲ ਤੁਹਾਡੇ ਵਰਗਾ ਸੀ। ਇਹ ਤਰੀਕਾ ਅਪਣਾਇਆ ਤਾਂ ਸਭ ਕੁਝ ਬਦਲ ਗਿਆ!',
+      cta:'ਹੁਣ ਤੁਹਾਡੀ ਵਾਰੀ! ਅੱਜ ਦੀ ਇੱਕ ਗੱਲ 24 ਘੰਟਿਆਂ ਵਿੱਚ ਲਾਗੂ ਕਰੋ। ਧੰਨਵਾਦ!'
+    },
+    'Tamil':{
+      hook:'"'+topic+'" பற்றி தெரிந்துகொள்ள தயாரா? சில நிமிடங்களில் உங்கள் சிந்தனையை மாற்றும் ஒன்றை கற்றுக்கொள்வீர்கள்!',
+      intro:'வணக்கம்! இன்று "'+topic+'" பற்றி பேசுவோம். இது உங்களுக்காகவே!',
+      main:kp?kp:'முதலாவது — அடிப்படையை வலிமைப்படுத்துங்கள்.\n\nஇரண்டாவது — தொடர்ந்து பயிற்சி செய்யுங்கள்.\n\nமூன்றாவது — முன்னேற்றத்தை கண்காணியுங்கள்.',
+      story:'ஒரு சிறிய கதை. ஒரு '+audience.toLowerCase()+' இருந்தார் — உங்களைப் போலவே. இந்த முறை பின்பற்றியதும் எல்லாம் மாறியது!',
+      cta:'இப்போது உங்கள் முறை! இன்றைய ஒன்றை 24 மணி நேரத்தில் செயல்படுத்துங்கள். நன்றி!'
+    },
+    'Gujarati':{
+      hook:'"'+topic+'" વિશે બધું જાણવા તૈયાર છો? થોડા મિનિટોમાં કંઈક એવું શીખશો જે સોચ બદલી નાખશે!',
+      intro:'નમસ્તે! આજે "'+topic+'" વિશે વાત કરીશું. આ તમારા માટે જ છે!',
+      main:kp?kp:'પ્રથમ — પાયો મજબૂત કરો.\n\nબીજું — નિયમિત અભ્યાસ કરો.\n\nત્રીજું — પ્રગતિ ટ્રૅક કરો.',
+      story:'એક નાની વાર્તા. એક '+audience.toLowerCase()+' હતા — બિલકુલ તમારા જેવા. ફોર્મ્યુલા અપનાવ્યું ત્યારે બધું બદલાઈ ગયું!',
+      cta:'હવે તમારો વારો! આજની એક વાત 24 કલાકમાં અમલ કરો. ધન્યવાદ!'
+    },
+    'Bhojpuri':{
+      hook:'का रउआ "'+topic+'" के बारे में जाने के तैयार बानी? अगिला कुछ मिनट में रउआ के सोच बदल दी!',
+      intro:'प्रणाम! आज हम "'+topic+'" के बारे में बात करब। ई रउआ खातिर बा!',
+      main:kp?kp:'पहिला — नींव मजबूत करीं।\n\nदूसरा — नियमित अभ्यास करीं।\n\nतीसरा — तरक्की देखीं।',
+      story:'एक '+audience.toLowerCase()+' रहे — बिल्कुल रउआ नियन। एह तरीका अपनवलन त सब बदल गइल!',
+      cta:'अब रउआ के बारी! आज के एक बात 24 घंटा में लागू करीं। धन्यवाद!'
+    },
+    'Bengali':{
+      hook:'"'+topic+'" সম্পর্কে সব জানতে প্রস্তুত? কয়েক মিনিটে এমন কিছু শিখবেন যা চিন্তা বদলে দেবে!',
+      intro:'নমস্কার! আজ "'+topic+'" নিয়ে কথা বলব। এটি আপনার জন্যই!',
+      main:kp?kp:'প্রথমত — ভিত্তি মজবুত করুন।\n\nদ্বিতীয়ত — নিয়মিত অভ্যাস করুন।\n\nতৃতীয়ত — অগ্রগতি ট্র্যাক করুন।',
+      story:'একটি ছোট গল্প। একজন '+audience.toLowerCase()+' ছিলেন — ঠিক আপনার মতো। পদ্ধতি অনুসরণ করতেই সব বদলে গেল!',
+      cta:'এখন আপনার পালা! ২৪ ঘণ্টায় একটি বিষয় প্রয়োগ করুন। ধন্যবাদ!'
+    }
+  };
+  var t=T[lang]||T['English'];
+  var full='HOOK\n'+t.hook+'\n\nINTRODUCTION\n'+t.intro+'\n\nMAIN CONTENT\n'+t.main+'\n\nEXAMPLES / STORY\n'+t.story+'\n\nCONCLUSION / CALL TO ACTION\n'+t.cta;
+  setTimeout(function(){
+    currentScript=full;
+    renderScript(full);
+    ['copyBtn','dlBtn','editBtn'].forEach(function(id){document.getElementById(id).style.display='inline-flex';});
+    toast('✦ '+lang+' script ready!');
+    btn.disabled=false;btn.textContent='⭐ Generate Script';
+  },1800);
+}
+
+function renderScript(text){
+  var secs=[
+    {re:/^HOOK/i,label:'🎣 Hook'},
+    {re:/^INTRODUCTION/i,label:'📖 Introduction'},
+    {re:/^MAIN CONTENT/i,label:'🎯 Main Content'},
+    {re:/^EXAMPLES/i,label:'💬 Examples / Story'},
+    {re:/^CONCLUSION/i,label:'🚀 Conclusion / CTA'}
+  ];
+  var lines=text.split('\n'),parsed=[],cur=null,buf=[];
+  lines.forEach(function(line){
+    var m=secs.find(function(s){return s.re.test(line.trim());});
+    if(m){if(cur)parsed.push({label:cur.label,content:buf.join('\n').trim()});cur=m;buf=[];}
+    else buf.push(line);
+  });
+  if(cur)parsed.push({label:cur.label,content:buf.join('\n').trim()});
+  if(!parsed.length){document.getElementById('out-body').innerHTML='<div class="s-sec"><div class="s-sec-body">'+esc(text)+'</div></div>';return;}
+  document.getElementById('out-body').innerHTML=parsed.map(function(s){
+    return '<div class="s-sec"><div class="s-sec-label">'+s.label+'</div><div class="s-sec-body">'+esc(s.content)+'</div></div>';
+  }).join('');
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
+
+function copyS(){
+  if(!currentScript)return;
+  if(navigator.clipboard){navigator.clipboard.writeText(currentScript).then(function(){toast('✓ Script copied!');}).catch(fallback);}
+  else fallback();
+}
+function fallback(){
+  var ta=document.createElement('textarea');ta.value=currentScript;
+  ta.style.cssText='position:fixed;left:-9999px;top:0';document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');toast('✓ Script copied!');}catch(e){toast('Please copy manually.');}
+  document.body.removeChild(ta);
+}
+function dlS(){
+  if(!currentScript)return;
+  var name=(document.getElementById('topic').value||'script').toLowerCase().replace(/\s+/g,'-');
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([currentScript],{type:'text/plain'}));
+  a.download=name+'-script.txt';a.click();toast('↓ Downloaded!');
+}
+function editS(){
+  var b=document.getElementById('out-body');
+  if(b.contentEditable!=='true'){
+    b.contentEditable='true';b.style.outline='1px solid rgba(232,161,42,0.4)
